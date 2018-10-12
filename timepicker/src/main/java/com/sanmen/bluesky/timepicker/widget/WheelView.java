@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-package com.sanmen.bluesky.doubletimepicker.widget;
+package com.sanmen.bluesky.timepicker.widget;
 
 
 import android.content.Context;
@@ -41,7 +41,7 @@ import android.view.View;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import com.sanmen.bluesky.doubletimepicker.R;
+import com.sanmen.bluesky.timepicker.R;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.sanmen.bluesky.doubletimepicker.widget;
+package com.sanmen.bluesky.timepicker.widget;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,8 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sanmen.bluesky.doubletimepicker.R;
-import com.sanmen.bluesky.doubletimepicker.util.TimeUtil;
+import com.sanmen.bluesky.timepicker.R;
+import com.sanmen.bluesky.timepicker.util.TimeUtil;
 
 import java.util.Arrays;
 import java.util.Calendar;

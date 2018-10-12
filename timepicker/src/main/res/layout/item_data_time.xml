@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     android:background="@drawable/shape_view_radius">
 
-    <com.sanmen.bluesky.doubletimepicker.widget.WheelView
+    <com.sanmen.bluesky.timepicker.widget.WheelView
         android:id="@+id/year"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="4dp"
         android:gravity="center_vertical"
-        android:text="年" />
+        android:text="@string/tvYearUnit"
+        android:layout_marginEnd="4dp" />
 
     <View
         android:id="@+id/v_yearAndMonth"
@@ -29,7 +30,7 @@
         android:layout_height="match_parent"
         android:background="#e8e8e8" />
 
-    <com.sanmen.bluesky.doubletimepicker.widget.WheelView
+    <com.sanmen.bluesky.timepicker.widget.WheelView
         android:id="@+id/month"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,7 +42,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="4dp"
         android:gravity="center_vertical"
-        android:text="月" />
+        android:text="@string/tvMonthUnit"
+        android:layout_marginEnd="4dp" />
 
     <View
         android:id="@+id/v_monthAndDay"
@@ -49,7 +51,7 @@
         android:layout_height="match_parent"
         android:background="#e8e8e8" />
 
-    <com.sanmen.bluesky.doubletimepicker.widget.WheelView
+    <com.sanmen.bluesky.timepicker.widget.WheelView
         android:id="@+id/day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +63,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="4dp"
         android:gravity="center_vertical"
-        android:text="日" />
+        android:text="@string/tvDayUnit"
+        android:layout_marginEnd="4dp" />
 
     <View
         android:id="@+id/v_dayAndHour"
@@ -69,7 +72,7 @@
         android:layout_height="match_parent"
         android:background="#e8e8e8" />
 
-    <com.sanmen.bluesky.doubletimepicker.widget.WheelView
+    <com.sanmen.bluesky.timepicker.widget.WheelView
         android:id="@+id/hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,7 +84,8 @@
         android:layout_height="match_parent"
         android:layout_marginRight="4dp"
         android:gravity="center_vertical"
-        android:text="时" />
+        android:text="@string/tvHourUnit"
+        android:layout_marginEnd="4dp" />
 
     <View
         android:id="@+id/v_hourAndMinute"
@@ -89,7 +93,7 @@
         android:layout_height="match_parent"
         android:background="#e8e8e8" />
 
-    <com.sanmen.bluesky.doubletimepicker.widget.WheelView
+    <com.sanmen.bluesky.timepicker.widget.WheelView
         android:id="@+id/minute"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,5 +105,6 @@
         android:layout_height="match_parent"
         android:layout_marginRight="4dp"
         android:gravity="center_vertical"
-        android:text="分" />
+        android:text="@string/tvMinuteUnit"
+        android:layout_marginEnd="4dp" />
 </LinearLayout>

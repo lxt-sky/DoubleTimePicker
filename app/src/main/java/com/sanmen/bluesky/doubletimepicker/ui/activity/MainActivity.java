@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.sanmen.bluesky.doubletimepicker.R;
-import com.sanmen.bluesky.doubletimepicker.widget.DoubleTimeSelectDialog;
+import com.sanmen.bluesky.timepicker.widget.DoubleTimeSelectDialog;
 
 public class MainActivity extends AppCompatActivity {
 

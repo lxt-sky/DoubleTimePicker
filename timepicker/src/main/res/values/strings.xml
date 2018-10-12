@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TimePicker</string>
+
+    <string name="begin_at">开始于\n</string>
+    <string name="end_at">结束于\n</string>
+    <string name="timeSelectedAlarm">开始时间不能大于结束时间,请重新选择!</string>
+    <string name="tvYearUnit">年</string>
+    <string name="tvMonthUnit">月</string>
+    <string name="tvDayUnit">日</string>
+    <string name="tvHourUnit">时</string>
+    <string name="tvMinuteUnit">分</string>
+</resources>

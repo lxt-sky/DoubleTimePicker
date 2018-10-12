@@ -1,4 +1,4 @@
-package com.sanmen.bluesky.doubletimepicker.util;
+package com.sanmen.bluesky.timepicker.util;
 
 import android.support.annotation.NonNull;
 

@@ -14,20 +14,28 @@
  *  limitations under the License.
  */
 
-package com.sanmen.bluesky.doubletimepicker.widget;
+package com.sanmen.bluesky.timepicker.widget;
 
-/**
- * Wheel changed listener interface.
- * <p>The currentItemChanged() method is called whenever current wheel positions is changed:
- * New Wheel position is set
- * Wheel view is scrolled
- */
-public interface OnWheelChangedListener {
+public interface WheelAdapter {
 	/**
-	 * Callback method to be invoked when current item changed
-	 * @param wheel the wheel view whose state has changed
-	 * @param oldValue the old value of current item
-	 * @param newValue the new value of current item
+	 * Gets items count
+	 * @return the count of wheel items
 	 */
-	void onChanged(WheelView wheel, int oldValue, int newValue);
+	public int getItemsCount();
+	
+	/**
+	 * Gets a wheel item by index.
+	 * 
+	 * @param index the item index
+	 * @return the wheel item text or null
+	 */
+	public String getItem(int index);
+	
+	/**
+	 * Gets maximum item length. It is used to determine the wheel width. 
+	 * If -1 is returned there will be used the default wheel width.
+	 * 
+	 * @return the maximum item length or -1
+	 */
+	public int getMaximumLength();
 }

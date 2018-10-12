@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.sanmen.bluesky.doubletimepicker.widget;
+package com.sanmen.bluesky.timepicker.widget;
 
 
 public class NumericWheelAdapter implements WheelAdapter {
