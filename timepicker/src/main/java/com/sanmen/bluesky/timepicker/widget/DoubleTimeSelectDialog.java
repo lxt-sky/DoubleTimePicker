@@ -22,8 +22,11 @@ import android.widget.Toast;
 import com.sanmen.bluesky.timepicker.R;
 import com.sanmen.bluesky.timepicker.util.TimeUtil;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,8 +101,10 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
     private String mSmallestTime;
     /**最大时间*/
     private String mBiggestTime;
-    /**默认选中时间*/
-    private String defaultSelectedTime;
+    /**默认选中开始时间*/
+    private String defaultBeginTime;
+
+    private String defaultEndTime;
     /**
      * 选择的开始时间
      */
@@ -178,28 +183,36 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
     }
 
     public DoubleTimeSelectDialog(@NonNull Context context,String smallestTime,String biggestTime) {
-        this(context,smallestTime,biggestTime, TimeUtil.getCurTime());
+        this(context,smallestTime,biggestTime,"");
     }
 
-    public DoubleTimeSelectDialog(@NonNull Context context,String smallestTime,String biggestTime,String defaultSelectedTime) {
+    public DoubleTimeSelectDialog(@NonNull Context context,String smallestTime,String biggestTime,String defaultBeginTime) {
+        this(context,smallestTime,biggestTime,defaultBeginTime,defaultBeginTime);
+
+    }
+
+    public DoubleTimeSelectDialog(@NonNull Context context,String smallestTime,String biggestTime,String defaultBeginTime,String defaultEndTime) {
         super(context, R.style.PopBottomDialogStyle);
         this.mContext = context;
         this.mSmallestTime = smallestTime;
         this.mBiggestTime = biggestTime;
-        this.defaultSelectedTime = defaultSelectedTime;
-
+        this.defaultBeginTime = defaultBeginTime;
+        this.defaultEndTime = defaultEndTime;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLayout();
-        setData(defaultSelectedTime);
+        setData(defaultBeginTime);
         initView();
         //初始化日期选择器
         initDatePicker();
         //设置显示的开始和结束时间值
-        setShowValue(curYear,curMonth,curDay,curHour,curMinute,true);
+
+        initBeginValue();
+        initEndValue();
+
     }
 
     /**
@@ -300,7 +313,13 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
         //如果未设置默认选择的时间,则将当前系统时间作为选中的值
         if (!TextUtils.isEmpty(selectedTime)){
 
-            useTimeWithYearAndMinute(selectedTime);
+            int[] value = useTimeWithYearAndMinute(selectedTime);
+            curYear=value[0];
+            curMonth=value[1];
+            curDay=value[2];
+            curHour=value[3];
+            curMinute=value[4];
+
             if (!isSetType){
                 mType=curType;
             }
@@ -318,46 +337,76 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
 
     /**
      * 分解时间字符串,获取年,月,日,时,分
-     * @param defaultSelectedTime
+     * @param selectedTime
      */
-    private void useTimeWithYearAndMinute(String defaultSelectedTime) {
-        String[] ymd = defaultSelectedTime.split("-");
+    private int[] useTimeWithYearAndMinute(String selectedTime) {
+
+        int[] value = new int[5];
+        //根据最小时间设置初始时间
+        Calendar calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int day = calendar.get(Calendar.DATE);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        calendar.clear();
+
+        String[] ymd = selectedTime.split("-");
         if (ymd.length>2){
 
             curType= TYPE.YEAR_MONTH_DATE.ordinal();
-            curYear = Integer.parseInt(ymd[0]);
-            curMonth = Integer.parseInt(ymd[1]);
+            year = Integer.parseInt(ymd[0]);
+            month = Integer.parseInt(ymd[1]);
             String[] dhm = ymd[2].split(" ");
-            curDay= Integer.parseInt(dhm[0]);
-            if (dhm.length>1){
+            day= Integer.parseInt(dhm[0]);
+            if (dhm.length>1) {
 
-                curType= TYPE.YEAR_MONTH_DATE_HOUR_MINUTE.ordinal();
-                String[] hm =dhm[1].split(":");
-                if (hm.length>1){
-                    curHour = Integer.parseInt(hm[0]);
-                    curMinute = Integer.parseInt(hm[1]);
+                curType = TYPE.YEAR_MONTH_DATE_HOUR_MINUTE.ordinal();
+                String[] hm = dhm[1].split(":");
+                if (hm.length > 1) {
+                    hour = Integer.parseInt(hm[0]);
+                    minute = Integer.parseInt(hm[1]);
                 }
             }
         }else if (ymd.length>1){
             if (ymd[0].length()>2){
 
                 curType= TYPE.YEAR_MONTH.ordinal();
-                curYear=Integer.parseInt(ymd[0]);
-                curMonth = Integer.parseInt(ymd[1]);
+                year=Integer.parseInt(ymd[0]);
+                month = Integer.parseInt(ymd[1]);
             }else {
 
                 curType= TYPE.MONTH_DATE.ordinal();
-                curMonth = Integer.parseInt(ymd[0]);
-                curDay = Integer.parseInt(ymd[1]);
+                month = Integer.parseInt(ymd[0]);
+                day = Integer.parseInt(ymd[1]);
             }
         }else {
-            String[] hm =defaultSelectedTime.split(":");
+            String[] hm =selectedTime.split(":");
             if (hm.length>1){
                 curType = TYPE.HOUR_MINUTE.ordinal();
-                curHour = Integer.parseInt(hm[0]);
-                curMinute = Integer.parseInt(hm[1]);
+                hour = Integer.parseInt(hm[0]);
+                minute = Integer.parseInt(hm[1]);
             }
         }
+
+        value[0]=year;
+        value[1]=month;
+        value[2]=day;
+        value[3]=hour;
+        value[4]=minute;
+
+        return value;
+    }
+
+    private void initEndValue() {
+
+        int[] value=useTimeWithYearAndMinute(defaultEndTime);
+        setShowValue(value[0],value[1],value[2],value[3],value[4],true,false);
+    }
+
+    private void initBeginValue() {
+        setShowValue(curYear,curMonth,curDay,curHour,curMinute,true,true);
     }
 
     @Override
@@ -369,6 +418,7 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
             llEndLayout.setSelected(false);
             mTimeType = TIME_TYPE.TYPE_START;
             setData(mSelectStartTime);
+            initDatePicker();
 
         } else if (i == R.id.llEndLayout) {
             //结束时间Item
@@ -376,7 +426,7 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
             llEndLayout.setSelected(true);
             mTimeType = TIME_TYPE.TYPE_END;
             setData(mSelectEndTime);
-
+            initDatePicker();
         } else if (i == R.id.tvTimeSelectCancel) {
             //取消按钮
             this.dismiss();
@@ -547,13 +597,13 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
         // 时
         mHourView.setAdapter(new NumericWheelAdapter(START_HOUR, END_HOUR));
         mHourView.setLabel("");
-        mHourView.setCurrentItem(hour);
+        mHourView.setCurrentItem(curHour);
         mHourView.setCyclic(true);
 
         // 分
         mMinuteView.setAdapter(new NumericWheelAdapter(START_MINUTE, END_MINUTE));
         mMinuteView.setLabel("");
-        mMinuteView.setCurrentItem(minute);
+        mMinuteView.setCurrentItem(curMinute);
         mMinuteView.setCyclic(true);
 
         // 选择器字体的大小
@@ -714,7 +764,7 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
         int hour = mHourView.getCurrentItem();
         int minute = mMinuteView.getCurrentItem();
 
-        setShowValue(year,month,day,hour,minute,false);
+        setShowValue(year,month,day,hour,minute,false,false);
 
     }
 
@@ -726,8 +776,9 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
      * @param hour 时
      * @param minute 分
      * @param isInit 当前是否为初始化
+     * @param isSetBegin 是否为设置开始时间
      */
-    private void setShowValue(int year, int month, int day, int hour, int minute,boolean isInit) {
+    private void setShowValue(int year, int month, int day, int hour, int minute,boolean isInit,boolean isSetBegin) {
 
         String monthS = String.format("%02d", month);
         String dayS = String.format("%02d", day);
@@ -738,23 +789,23 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
         switch (mType){
             case 0:
                 String timeStr0 = yearS + "-" + monthS + "-" + dayS+ " " + hourS + ":" + minuteS;
-                toSetValue(timeStr0,isInit);
+                toSetValue(timeStr0,isInit,isSetBegin);
                 break;
             case 1:
                 String timeStr1 = yearS + "-" + monthS + "-" + dayS;
-                toSetValue(timeStr1,isInit);
+                toSetValue(timeStr1,isInit,isSetBegin);
                 break;
             case 2:
                 String timeStr2 = yearS + "-" + monthS;
-                toSetValue(timeStr2,isInit);
+                toSetValue(timeStr2,isInit,isSetBegin);
                 break;
             case 3:
                 String timeStr3 = monthS + "-" + dayS;
-                toSetValue(timeStr3,isInit);
+                toSetValue(timeStr3,isInit,isSetBegin);
                 break;
             case 4:
                 String timeStr4 =hourS + ":" + minuteS;
-                toSetValue(timeStr4,isInit);
+                toSetValue(timeStr4,isInit,isSetBegin);
                 break;
             default:
                 break;
@@ -763,15 +814,19 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
 
     /**
      * 设置时间
-     * @param timeStr
-     * @param isInit
+     * @param timeStr 时间字符串
+     * @param isInit 是否为初始化
+     * @param isSetBegin 是否为设置开始时间
      */
-    private void toSetValue(String timeStr,boolean isInit) {
+    private void toSetValue(String timeStr,boolean isInit,boolean isSetBegin) {
         if (isInit){
-            mSelectStartTime =timeStr;
-            tvBeginValue.setText(timeStr);
-            mSelectEndTime = timeStr;
-            tvEndValue.setText(timeStr);
+            if (isSetBegin){
+                mSelectStartTime =timeStr;
+                tvBeginValue.setText(timeStr);
+            }else {
+                mSelectEndTime = timeStr;
+                tvEndValue.setText(timeStr);
+            }
             return;
         }
 

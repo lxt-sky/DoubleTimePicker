@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDoubleTimePicker() {
         if (dialog==null){
-            dialog=new DoubleTimeSelectDialog(this,"2017-07-07","2030-09-31","2010-09-31");
-            dialog.setType(DoubleTimeSelectDialog.TYPE.YEAR_MONTH);
+            dialog=new DoubleTimeSelectDialog(this,"01-01","09-09","2018-01-01 08:00","2018-09-08 09:00");
+            dialog.setType(DoubleTimeSelectDialog.TYPE.MONTH_DATE);
             dialog.setOnDateSelectFinished(new DoubleTimeSelectDialog.OnDateSelectFinished() {
                 @Override
                 public void onSelectFinished(String startTime, String endTime) {

@@ -1,1 +1,1 @@
-include ':app', ':doubletimepicker'
+include ':app', ':doubletimepicker', ':timepicker'
