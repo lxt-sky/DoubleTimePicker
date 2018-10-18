@@ -6,7 +6,7 @@ publish{
     repoName = 'third_library'
     groupId ='com.sanmen.bluesky'//jcenter路径
     artifactId = 'timepicker'//项目名称
-    publishVersion = '1.0.0'//版本号
+    publishVersion = '1.0.1'//版本号
     desc = 'This is a customized DoubleTimePicker'//描述
     website = 'https://github.com/lxt-sky/DoubleTimePicker'//网站
 }

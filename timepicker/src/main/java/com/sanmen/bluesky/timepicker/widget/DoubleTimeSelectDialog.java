@@ -507,9 +507,9 @@ public class DoubleTimeSelectDialog extends Dialog implements View.OnClickListen
                 }
             }
         }
-        if (TextUtils.isEmpty(mBiggestTime)){
-            mBiggestTime = TimeUtil.getCurTime();
-        }
+//        if (TextUtils.isEmpty(mBiggestTime)){
+//            mBiggestTime = TimeUtil.getCurTime();
+//        }
         String[] ymdEnd = mBiggestTime.split("-");
         if (ymdEnd.length > 2) {
             END_YEAR = Integer.parseInt(ymdEnd[0]);
